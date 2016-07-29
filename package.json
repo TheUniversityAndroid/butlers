@@ -1,0 +1,28 @@
+{
+  "name": "butlers",
+  "version": "0.1.0",
+  "description": "An automation server (for CI/CD) that lets you use docker containers to define build jobs",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheUniversityAndroid/butlers.git"
+  },
+  "keywords": [
+    "CI",
+    "CD",
+    "docker",
+    "automation"
+  ],
+  "author": "University Android, Inc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheUniversityAndroid/butlers/issues"
+  },
+  "homepage": "https://github.com/TheUniversityAndroid/butlers#readme",
+  "devDependencies": {
+    "typescript": "^1.8.10"
+  }
+}
