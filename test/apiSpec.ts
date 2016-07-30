@@ -1,5 +1,4 @@
-import {makeServer, JobsConfig} from "../server";
-import * as fs from "fs";
+import {makeServer} from "../server";
 import {expect} from "chai";
 // tslint:disable-next-line:no-require-imports no-var-requires
 const request = require("supertest");
@@ -62,7 +61,7 @@ describe("/api", function () {
                         });
                 });
 
-            })
+            });
         });
     });
 });
