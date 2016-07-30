@@ -60,6 +60,7 @@ const handleJobsRequest = (req: http.IncomingMessage, res: http.ServerResponse, 
                 });
             }).subscribe((data: Buffer) => {
                 jobsConfig.config.jobs.push(JSON.parse(data.toString()));
+                jobsConfig.save();
                 res.statusCode = 201;
                 res.end();
             });

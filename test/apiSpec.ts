@@ -1,5 +1,6 @@
 import {makeServer, JobsConfig} from "../server";
 import * as fs from "fs";
+import {expect} from "chai";
 // tslint:disable-next-line:no-require-imports no-var-requires
 const request = require("supertest");
 
@@ -37,11 +38,11 @@ describe("/api", function () {
             });
 
             describe("POST", function () {
-
+                let savedCalled = false;
                 const server = makeServer({
                     config: {jobs: []},
                     // tslint:disable-next-line: no-empty
-                    save: () => {},
+                    save: () => { savedCalled = true; },
                 });
 
                 it("appends the posted job to the list of jobs", function (done) {
@@ -52,7 +53,12 @@ describe("/api", function () {
                         .end(() => {
                             request(server)
                             .get("/api/jobs")
-                            .expect(200, sampleJob, done);
+                            .expect(200, sampleJob)
+                            .end((err, res) => {
+                                if (err) { done(err); return; }
+                                expect(savedCalled).to.equal(true);
+                                done();
+                            });
                         });
                 });
 
