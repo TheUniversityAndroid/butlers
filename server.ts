@@ -3,9 +3,13 @@ import * as fs from "fs";
 import {Observable, Subscriber} from "@reactivex/rxjs";
 
 export interface Job {
-    id: string;
+    // If sent by client in post request, id won't be present
+    id?: string;
     name: string;
-    status: string;
+    // If sent by client in post request, status won't be present
+    status?: string;
+    imagePath: string;
+    command: string;
 }
 
 export interface JobsConfig {
@@ -59,9 +63,14 @@ const handleJobsRequest = (req: http.IncomingMessage, res: http.ServerResponse, 
                     subscriber.complete();
                 });
             }).subscribe((data: Buffer) => {
-                jobsConfig.config.jobs.push(JSON.parse(data.toString()));
-                jobsConfig.save();
-                res.statusCode = 201;
+                const jobConfig = JSON.parse(data.toString());
+                if (isValid(jobConfig)) {
+                    jobsConfig.config.jobs.push(jobConfig);
+                    jobsConfig.save();
+                    res.statusCode = 201;
+                } else {
+                    res.statusCode = 400;
+                }
                 res.end();
             });
             break;
@@ -69,4 +78,10 @@ const handleJobsRequest = (req: http.IncomingMessage, res: http.ServerResponse, 
             unrecognizedRequest(res);
         break;
     }
+};
+
+const isValid = (jobConfig: Object) => {
+    return jobConfig.hasOwnProperty("name")
+        && jobConfig.hasOwnProperty("command")
+        && jobConfig.hasOwnProperty("imagePath");
 };
