@@ -1,5 +1,6 @@
 import * as http from "http";
 
-http.createServer((req, res) => {
-    res.end("Hello world!");
-}).listen(8080);
+export default http.createServer((req, res) => {
+    res.setHeader("Content-type", "application/json")
+    res.end(JSON.stringify({hello: "goodbye"}));
+});
