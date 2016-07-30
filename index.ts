@@ -1,3 +1,3 @@
 import server from "./server";
 
-server.listen(8080);
+server("jobs.toml").listen(8080);

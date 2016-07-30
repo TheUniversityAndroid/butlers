@@ -31,6 +31,7 @@
     "typescript": "^1.8.10"
   },
   "dependencies": {
-    "@reactivex/rxjs": "^5.0.0-beta.10"
+    "@reactivex/rxjs": "^5.0.0-beta.10",
+    "toml": "^2.3.0"
   }
 }
