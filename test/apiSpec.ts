@@ -61,7 +61,6 @@ describe("/api", function () {
                     });
             });
 
-            // All job fields are required for post 
             context("the client posts a job that's missing any fields", function () {
                 it("resopnds with a 400", function(done) {
                     request(server)
