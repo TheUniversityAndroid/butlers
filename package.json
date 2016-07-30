@@ -4,6 +4,8 @@
   "description": "An automation server (for CI/CD) that lets you use docker containers to define build jobs",
   "main": "index.js",
   "scripts": {
+    "prestart": "tsc",
+    "start": "node server.js",
     "test": "mocha ."
   },
   "repository": {
