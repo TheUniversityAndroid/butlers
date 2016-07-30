@@ -1,11 +1,12 @@
-import createServer from "../server";
+import {makeServer, JobsConfig} from "../server";
+import * as fs from "fs";
 // tslint:disable-next-line:no-require-imports no-var-requires
 const request = require("supertest");
 
 const sampleJob = {
     jobs: [
         {
-            id: 1,
+            id: "1",
             name: "University Android",
             status: "new",
         },
@@ -20,7 +21,11 @@ describe("/api", function () {
 
             describe("GET", function () {
 
-                const server = createServer("test-jobs.toml");
+                const server = makeServer({
+                    config: sampleJob,
+                    // tslint:disable-next-line: no-empty
+                    save: () => {},
+                });
 
                 it("returns those configured jobs", function (done) {
 
@@ -33,16 +38,22 @@ describe("/api", function () {
 
             describe("POST", function () {
 
-                const server = createServer("empty-jobs.toml");
+                const server = makeServer({
+                    config: {jobs: []},
+                    // tslint:disable-next-line: no-empty
+                    save: () => {},
+                });
 
                 it("appends the posted job to the list of jobs", function (done) {
                     request(server)
                         .post("/api/jobs")
-                        .expect(201);
-
-                    request(server)
-                        .get("/api/jobs")
-                        .expect(200, sampleJob, done);
+                        .send(sampleJob.jobs[0])
+                        .expect(201)
+                        .end(() => {
+                            request(server)
+                            .get("/api/jobs")
+                            .expect(200, sampleJob, done);
+                        });
                 });
 
             })
