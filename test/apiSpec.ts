@@ -3,11 +3,17 @@ import createServer from "../server";
 const request = require("supertest");
 
 describe("/api", function() {
+
     describe("/jobs", function () {
+
         context("When there are existing configured jobs", function() {
+
             describe("GET", function () {
+
                 const server = createServer("test-jobs.toml");
+
                 it("returns those configured jobs", function(done) {
+
                     request(server)
                         .get("/api/jobs")
                         .set("Accept", "application/json")
