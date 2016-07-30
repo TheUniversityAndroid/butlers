@@ -6,7 +6,9 @@ const request = require("supertest");
 const sampleJob = {
     jobs: [
         {
+            cmd: "test",
             id: "1",
+            imagePath: "git@github.com:kmdupr33/RxLoader.git",
             name: "University Android",
             status: "new",
         },
@@ -39,7 +41,7 @@ describe("/api", function () {
             describe("POST", function () {
                 let savedCalled = false;
                 const server = makeServer({
-                    config: {jobs: []},
+                    config: sampleJob,
                     // tslint:disable-next-line: no-empty
                     save: () => { savedCalled = true; },
                 });
@@ -52,7 +54,7 @@ describe("/api", function () {
                         .end(() => {
                             request(server)
                             .get("/api/jobs")
-                            .expect(200, sampleJob)
+                            .expect(200, {jobs: [sampleJob.jobs[0], sampleJob.jobs[1]]})
                             .end((err, res) => {
                                 if (err) { done(err); return; }
                                 expect(savedCalled).to.equal(true);
